@@ -386,8 +386,9 @@
       justify-content: center;
       text-align: center;
       color: #fff;
-      padding: 90px 28px 70px;
-      background: linear-gradient(180deg, rgba(60, 70, 50, .22), rgba(60, 70, 50, .42)),
+      padding: 90px 28px 12vh;
+      background: 
+        radial-gradient(circle at center, rgba(32, 38, 28, 0.65) 0%, rgba(32, 38, 28, 0.35) 55%, rgba(32, 38, 28, 0.75) 100%),
         url('h.png');
       background-size: cover;
       background-position: center;
@@ -402,63 +403,71 @@
       opacity: .92
     }
 
+    :lang(ka) .cover .pre {
+      letter-spacing: .22em
+    }
+
     .cover h1 {
       font-family: var(--script);
       font-weight: 400;
-      line-height: 1.05;
+      line-height: 0.9;
       font-size: clamp(54px, 16vw, 76px);
-      text-shadow: 0 3px 22px rgba(0, 0, 0, .35);
+      text-shadow: 0 3px 22px rgba(0, 0, 0, .45);
       margin-bottom: 6px;
     }
 
     .cover .amp {
-      font-size: .62em;
+      font-size: 0.48em;
       display: block;
-      margin: 2px 0;
+      margin: 8px 0;
       opacity: .95
     }
 
     .cover .ornament {
-      font-size: 20px;
-      margin: 14px 0;
+      font-size: 18px;
+      margin: 8px 0;
       color: #f0e6d8
     }
 
     .cover .date {
       font-family: var(--serif);
-      letter-spacing: .28em;
-      font-size: 17px;
+      letter-spacing: .25em;
+      font-size: 16px;
       text-transform: uppercase
     }
 
     .cover .place {
       font-family: var(--geo);
-      font-size: 14px;
-      margin-top: 8px;
+      font-size: 13px;
+      margin-top: 6px;
       opacity: .9;
-      letter-spacing: .05em
+      letter-spacing: .04em
+    }
+
+    :lang(ka) .cover .place {
+      letter-spacing: .02em
     }
 
     .scroll-cue {
       position: absolute;
-      bottom: 26px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      font-family: var(--serif);
-      font-size: 12px;
-      letter-spacing: .25em;
+      gap: 4px;
+      font-family: var(--geo);
+      font-size: 11px;
+      letter-spacing: .15em;
       text-transform: uppercase;
-      opacity: .85;
+      opacity: .65;
       animation: pulse 2.6s ease-in-out infinite;
     }
 
     .scroll-cue svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       stroke: #fff;
       fill: none;
       stroke-width: 1.4
@@ -1072,9 +1081,9 @@
 
       <div class="scroll-cue">
         <span
-          data-en="VIEW INVITATION"
-          data-ka="იხილეთ მოწვევა">
-          იხილეთ მოწვევა
+          data-en="SCROLL DOWN"
+          data-ka="გადაახვიე ქვემოთ">
+          გადაახვიე ქვემოთ
         </span>
 
         <svg viewBox="0 0 24 24">
