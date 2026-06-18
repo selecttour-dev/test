@@ -373,7 +373,7 @@
       }
     }
 
-    .cover.reveal {
+    .cover.settle {
       animation: coverSettle 1.5s cubic-bezier(.2, .7, .2, 1) both
     }
 
@@ -1425,7 +1425,7 @@
         burstPetals();
         setTimeout(function () {
           intro.classList.add('zoom');
-          var c = document.querySelector('.cover'); if (c) c.classList.add('reveal');
+          var c = document.querySelector('.cover'); if (c) c.classList.add('settle');
         }, 820);
         setTimeout(function () { intro.classList.add('hidden'); document.body.style.overflow = ''; window.scrollTo(0, 0); }, 2050);
         // try to start music on this user gesture
