@@ -1100,11 +1100,10 @@
         </svg>
       </div>
       <div class="fs-invited">
-        <div class="inv-script" data-en="This invitation is<br>exclusively for you"
-          data-ka="ეს მოსაწვევი<br>მხოლოდ თქვენთვისაა">ეს მოსაწვევი<br>მხოლოდ თქვენთვისაა</div>
+        <div class="inv-script">This invitation is<br>exclusively for you</div>
       </div>
       <div class="tap-hint" id="tapHint">
-        <span data-en="tap the seal to open" data-ka="დააჭირე ბეჭედს გასახსნელად">დააჭირე ბეჭედს გასახსნელად</span>
+        <span>tap the seal to open</span>
         <span class="finger"><svg viewBox="0 0 24 24">
             <path d="M9 11V6a2 2 0 014 0v5M13 9a2 2 0 014 0v4a6 6 0 01-6 6h-1a6 6 0 01-5-3l-2-3a2 2 0 013-2l1 1" />
           </svg></span>
@@ -1114,7 +1113,7 @@
     <!-- ===== COVER ===== -->
     <section class="cover" id="top">
       <div class="pre" data-en="WE ARE GETTING MARRIED" data-ka="ჩვენ ვქორწინდებით">ჩვენ ვქორწინდებით</div>
-      <h1>შაკო<span class="amp">&amp;</span>სოფო</h1>
+      <h1 data-en="Shako<span class='amp'>&amp;</span>Sopo" data-ka="შაკო<span class='amp'>&amp;</span>სოფო">შაკო<span class="amp">&amp;</span>სოფო</h1>
       <div class="ornament">❦</div>
       <div class="date">28 . 08 . 2026</div>
       <div class="place" data-en="Mosavali Event Hall" data-ka="მოსავალი ივენთ ჰოლი">მოსავალი ივენთ ჰოლი</div>
@@ -1443,6 +1442,7 @@
         });
         langLabel.textContent = lang === 'ka' ? 'EN' : 'ქარ';
         document.documentElement.lang = lang;
+        document.title = lang === 'ka' ? 'შაკო & სოფო — საქორწილო მოსაწვევი' : 'Shako & Sopo — Wedding Invitation';
       }
       langBtn.addEventListener('click', function () { lang = lang === 'ka' ? 'en' : 'ka'; applyLang(); });
 
