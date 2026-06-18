@@ -1252,39 +1252,7 @@
       <p class="lead" data-en="Please let us know if you'll be celebrating with us by 1 October 2026."
         data-ka="გთხოვთ, გვაცნობოთ 2026 წლის 1 ოქტომბრამდე, თუ დაგვესწრებით.">გთხოვთ, გვაცნობოთ 2026 წლის 1 ოქტომბრამდე,
         თუ დაგვესწრებით.</p>
-      <form id="rsvpForm">
-        <div class="field">
-          <label data-en="Full name" data-ka="სახელი და გვარი">სახელი და გვარი</label>
-          <input type="text" required name="name" />
-        </div>
-        <div class="field">
-          <label data-en="Will you attend?" data-ka="დაგვესწრებით?">დაგვესწრებით?</label>
-          <div class="choice">
-            <button type="button" class="yes" data-val="yes" data-en="Joyfully yes" data-ka="სიხარულით — დიახ">სიხარულით
-              — დიახ</button>
-            <button type="button" class="no" data-val="no" data-en="Sadly no" data-ka="სამწუხაროდ — არა">სამწუხაროდ —
-              არა</button>
-          </div>
-          <input type="hidden" name="attending" id="attending" />
-        </div>
-        <div class="field">
-          <label data-en="Number of guests" data-ka="სტუმრების რაოდენობა">სტუმრების რაოდენობა</label>
-          <select name="guests">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </div>
-        <div class="field">
-          <label data-en="A note for us (optional)" data-ka="შენიშვნა (სურვილისამებრ)">შენიშვნა (სურვილისამებრ)</label>
-          <textarea name="note"></textarea>
-        </div>
-        <button class="submit" type="submit" data-en="Send RSVP" data-ka="გაგზავნა">გაგზავნა</button>
-      </form>
-      <div class="form-done" id="formDone" data-en="Thank you! We can't wait to celebrate with you. 🤍"
-        data-ka="გმადლობთ! მოუთმენლად ველოდებით თქვენთან ერთად აღნიშვნას. 🤍">გმადლობთ! მოუთმენლად ველოდებით თქვენთან
-        ერთად აღნიშვნას. 🤍</div>
+
     </section>
 
     <!-- ===== FOOTER ===== -->
@@ -1420,20 +1388,7 @@
       }, { threshold: .14 });
       document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 
-      // ----- RSVP -----
-      var attendBtns = document.querySelectorAll('.choice button');
-      attendBtns.forEach(function (b) {
-        b.addEventListener('click', function () {
-          attendBtns.forEach(function (x) { x.classList.remove('active'); });
-          b.classList.add('active');
-          document.getElementById('attending').value = b.getAttribute('data-val');
-        });
-      });
-      document.getElementById('rsvpForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        document.getElementById('rsvpForm').style.display = 'none';
-        document.getElementById('formDone').classList.add('show');
-      });
+
     })();
   </script>
 </body>
