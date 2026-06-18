@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Alex &amp; Diane — Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Noto+Serif+Georgian:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --sage:#9cab8a; --sage-deep:#6b7a57; --sage-soft:#e7ecdf;
+    --cream:#f6f2e8; --cream-deep:#efe9da;
+    --terracotta:#c2674a; --terracotta-deep:#9f4d34; --gold:#b89b5e;
+    --ink:#44503a; --ink-soft:#6c7361;
+    --script:'Great Vibes', 'Noto Serif Georgian', cursive;
+    --serif:'Cormorant Garamond', 'Noto Serif Georgian', serif;
+    --body:'Noto Serif Georgian', 'Cormorant Garamond', serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:var(--body);color:var(--ink);background:#c4cdb2;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%}
+  .phone{position:relative;max-width:480px;margin:0 auto;min-height:100vh;background:var(--cream);overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,.18)}
+
+  /* ---------- top controls ---------- */
+  .topbar{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:200;
+    display:flex;justify-content:space-between;align-items:flex-start;padding:14px 16px;pointer-events:none}
+  .pill{pointer-events:auto;cursor:pointer;background:rgba(247,243,235,.8);backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.6);border-radius:30px;padding:7px 13px;font-family:var(--serif);
+    font-size:14px;letter-spacing:.06em;color:var(--ink);display:flex;align-items:center;gap:6px;
+    box-shadow:0 4px 14px rgba(0,0,0,.1);transition:transform .2s ease}
+  .pill:active{transform:scale(.93)}
+  .pill svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6}
+
+  /* ---------- VIDEO ENVELOPE INTRO ---------- */
+  .intro{position:fixed;inset:0;z-index:100;overflow:hidden;cursor:pointer;
+    background:#d8d2c6;display:flex;align-items:center;justify-content:center;
+    transform-origin:50% 42%;
+    transition:opacity .9s ease, visibility .9s ease, transform 1.15s cubic-bezier(.5,0,.2,1)}
+  .intro.zoom{transform:scale(1.35);opacity:0}
+  .intro.hidden{opacity:0;visibility:hidden;pointer-events:none}
+  /* 9:16 stage so the card-text lines up exactly with the video frame */
+  .intro-stage{position:relative;width:100%;max-width:480px;aspect-ratio:9/16;max-height:100vh;margin:auto;
+    overflow:hidden;container-type:size}
+  .intro-stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+
+  /* text overlaid on the white card that rises out of the envelope (top ~26–46%) */
+  .card-text{position:absolute;left:0;right:0;top:26.5%;z-index:3;text-align:center;padding:0 17%;
+    opacity:0;transform:translateY(1.4cqh);transition:opacity 1.1s ease, transform 1.1s ease}
+  .card-text.show{opacity:1;transform:none}
+  .card-text .pre{font-family:var(--serif);letter-spacing:.34em;text-transform:uppercase;font-size:3.1cqw;color:var(--ink-soft)}
+  .card-text .names{font-family:var(--script);font-size:11cqw;color:var(--terracotta-deep);line-height:1;margin:1.6cqh 0 1cqh}
+  .card-text .date{font-family:var(--serif);letter-spacing:.24em;text-transform:uppercase;font-size:3.2cqw;color:var(--ink)}
+
+  /* continue hint after the animation */
+  .continue-hint{position:absolute;left:0;right:0;bottom:6.5%;z-index:3;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    font-family:var(--serif);letter-spacing:.1em;font-size:3.4cqw;color:var(--ink-soft);
+    opacity:0;transition:opacity .8s ease;pointer-events:none}
+  .continue-hint.show{opacity:1;animation:pulse 2.4s ease-in-out infinite}
+  .continue-hint svg{width:5.6cqw;height:5.6cqw;fill:none;stroke:var(--terracotta);stroke-width:1.5}
+
+  @keyframes coverSettle{from{transform:scale(1.14);filter:blur(3px)}to{transform:scale(1);filter:blur(0)}}
+  .cover.reveal{animation:coverSettle 1.5s cubic-bezier(.2,.7,.2,1) both}
+
+  /* ---------- sections ---------- */
+  section{position:relative}
+  .pad{padding:74px 30px}
+  .eyebrow{font-family:var(--script);font-size:27px;color:var(--terracotta);text-align:center;margin-bottom:2px}
+  .title{font-family:var(--serif);font-weight:500;text-align:center;font-size:35px;letter-spacing:.02em;color:var(--ink)}
+  .divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px auto 30px}
+  .divider span{height:1px;width:46px;background:var(--sage)}
+  .divider svg{width:18px;height:18px;fill:none;stroke:var(--terracotta);stroke-width:1.4}
+
+  .cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;padding:92px 28px 76px;
+    background:linear-gradient(180deg, rgba(54,64,44,.26), rgba(54,64,44,.5)),
+      url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1000&auto=format&fit=crop');
+    background-size:cover;background-position:center}
+  .cover .pre{font-family:var(--serif);letter-spacing:.42em;text-transform:uppercase;font-size:13px;margin-bottom:18px;opacity:.92}
+  .cover h1{font-family:var(--script);font-weight:400;line-height:1.02;font-size:clamp(56px,17vw,82px);text-shadow:0 3px 22px rgba(0,0,0,.35)}
+  .cover .amp{font-size:.6em;display:block;margin:2px 0;opacity:.95}
+  .cover .ornament{font-size:20px;margin:14px 0;color:#f0e6d8}
+  .cover .date{font-family:var(--serif);letter-spacing:.3em;font-size:17px;text-transform:uppercase}
+  .cover .place{font-family:var(--body);font-size:14px;margin-top:8px;opacity:.9;letter-spacing:.05em}
+  .scroll-cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;
+    font-family:var(--serif);font-size:12px;letter-spacing:.25em;text-transform:uppercase;opacity:.85;animation:pulse 2.6s ease-in-out infinite}
+  .scroll-cue svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.4}
+
+  .count-sec{background:var(--sage-soft);text-align:center}
+  .count-grid{display:flex;justify-content:center;gap:13px;margin-top:4px}
+  .count-cell{background:#fff;border-radius:14px;padding:16px 10px;min-width:68px;box-shadow:0 6px 18px rgba(80,90,60,.1)}
+  .count-cell b{display:block;font-family:var(--serif);font-size:34px;font-weight:600;color:var(--terracotta-deep);line-height:1}
+  .count-cell small{font-family:var(--serif);font-size:11px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
+
+  .story{background:var(--cream)}
+  .timeline{position:relative;max-width:380px;margin:0 auto;padding-left:30px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--sage),var(--terracotta))}
+  .t-item{position:relative;margin-bottom:34px}
+  .t-item::before{content:"";position:absolute;left:-30px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--terracotta);border:3px solid var(--cream);box-shadow:0 0 0 2px var(--terracotta)}
+  .t-year{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--terracotta)}
+  .t-head{font-family:var(--serif);font-weight:600;font-size:21px;margin:2px 0 6px;color:var(--ink)}
+  .t-text{font-size:15.5px;line-height:1.7;color:var(--ink-soft)}
+
+  .gallery{background:var(--sage-soft)}
+  .g-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:400px;margin:0 auto}
+  .g-grid figure{overflow:hidden;border-radius:12px;box-shadow:0 8px 20px rgba(80,90,60,.14)}
+  .g-grid img{width:100%;height:100%;object-fit:cover;aspect-ratio:1/1;transition:transform .6s ease}
+  .g-grid figure:nth-child(1){grid-row:span 2}
+  .g-grid figure:nth-child(1) img{aspect-ratio:auto;height:100%;min-height:236px}
+  .g-grid figure:active img{transform:scale(1.06)}
+
+  .programme{background:var(--cream)}
+  .prog-list{max-width:380px;margin:6px auto 0}
+  .prog-item{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px dashed rgba(156,171,138,.5)}
+  .prog-item:last-child{border-bottom:none}
+  .prog-ic{flex:0 0 44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(80,90,60,.12)}
+  .prog-ic svg{width:22px;height:22px;fill:none;stroke:var(--terracotta);stroke-width:1.5}
+  .prog-time{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--terracotta-deep);letter-spacing:.05em}
+  .prog-name{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--ink);margin-top:1px}
+  .prog-desc{font-size:14px;color:var(--ink-soft);margin-top:2px}
+
+  .details{background:var(--sage-soft)}
+  .d-grid{display:grid;gap:14px;max-width:400px;margin:0 auto}
+  .d-card{background:#fff;border-radius:16px;padding:22px;text-align:center;box-shadow:0 8px 22px rgba(80,90,60,.12)}
+  .d-card svg{width:30px;height:30px;fill:none;stroke:var(--terracotta);stroke-width:1.4;margin-bottom:8px}
+  .d-card h4{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--ink);margin-bottom:4px}
+  .d-card p{font-size:14.5px;color:var(--ink-soft);line-height:1.7}
+  .d-card a{color:var(--terracotta-deep);text-decoration:none;border-bottom:1px solid var(--terracotta);font-size:14.5px}
+
+  .rsvp{background:linear-gradient(180deg, rgba(48,58,40,.55), rgba(48,58,40,.72)),
+      url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=1000&auto=format&fit=crop');
+    background-size:cover;background-position:center;color:#fff}
+  .rsvp .eyebrow{color:#f3d9cb}.rsvp .title{color:#fff}
+  .rsvp .divider span{background:rgba(255,255,255,.5)}.rsvp .divider svg{stroke:#f3d9cb}
+  .rsvp .lead{text-align:center;font-family:var(--serif);font-size:17px;max-width:340px;margin:0 auto 26px;line-height:1.7;opacity:.95}
+  form{max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+  .field label{display:block;font-family:var(--serif);letter-spacing:.08em;font-size:13px;text-transform:uppercase;margin-bottom:6px;opacity:.92}
+  .field input,.field select,.field textarea{width:100%;padding:12px 14px;border:none;border-radius:10px;font-family:var(--body);font-size:15px;color:var(--ink);background:rgba(255,255,255,.95)}
+  .field textarea{resize:vertical;min-height:70px}
+  .choice{display:flex;gap:10px}
+  .choice button{flex:1;padding:12px;border-radius:10px;border:1.5px solid rgba(255,255,255,.6);background:transparent;color:#fff;font-family:var(--body);font-size:15px;cursor:pointer;transition:all .2s ease}
+  .choice button.active.yes{background:var(--sage);border-color:var(--sage)}
+  .choice button.active.no{background:var(--terracotta);border-color:var(--terracotta)}
+  .submit{margin-top:6px;padding:14px;border:none;border-radius:30px;cursor:pointer;background:var(--terracotta);color:#fff;font-family:var(--serif);letter-spacing:.18em;text-transform:uppercase;font-size:15px;box-shadow:0 8px 22px rgba(160,79,54,.4);transition:transform .2s ease}
+  .submit:active{transform:scale(.97)}
+  .form-done{display:none;text-align:center;font-family:var(--serif);font-size:19px;line-height:1.6;padding:24px;background:rgba(255,255,255,.12);border-radius:16px}
+  .form-done.show{display:block}
+
+  .footer{background:var(--sage-deep);color:#eef0e6;text-align:center;padding:54px 30px 60px}
+  .footer .mono{font-family:var(--script);font-size:46px;color:#fff;line-height:1}
+  .footer .thanks{font-family:var(--serif);font-size:16px;letter-spacing:.04em;margin-top:10px;opacity:.92}
+  .footer .hash{font-family:var(--serif);letter-spacing:.3em;font-size:12px;text-transform:uppercase;margin-top:22px;opacity:.7}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <div class="topbar">
+    <button class="pill" id="langBtn" aria-label="language">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg>
+      <span id="langLabel">EN</span>
+    </button>
+    <button class="pill" id="musicBtn" aria-label="music">
+      <svg id="musicIcon" viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg>
+    </button>
+  </div>
+
+  <!-- VIDEO ENVELOPE INTRO -->
+  <div class="intro" id="intro">
+    <div class="intro-stage">
+      <video id="introVid" playsinline muted autoplay preload="auto" poster="">
+        <source src="intro.vide.mp4" type="video/mp4" />
+      </video>
+      <!-- text sits on the white card that rises out of the envelope -->
+      <div class="card-text" id="cardText">
+        <div class="pre" data-ka="ჩვენ ვქორწინდებით" data-en="WE ARE GETTING MARRIED">ჩვენ ვქორწინდებით</div>
+        <div class="names" data-ka="ალექსი &amp; დიანა" data-en="Alex &amp; Diane">ალექსი &amp; დიანა</div>
+        <div class="date" data-ka="22 ნოემბერი 2026" data-en="22 November 2026">22 ნოემბერი 2026</div>
+      </div>
+      <div class="continue-hint" id="contHint">
+        <span data-ka="შეეხეთ გასაგრძელებლად" data-en="tap to continue">შეეხეთ გასაგრძელებლად</span>
+        <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- COVER -->
+  <section class="cover" id="top">
+    <div class="pre" data-ka="ჩვენ ვქორწინდებით" data-en="WE ARE GETTING MARRIED">ჩვენ ვქორწინდებით</div>
+    <h1>ალექსი<span class="amp">&amp;</span>დიანა</h1>
+    <div class="ornament">&#10086;</div>
+    <div class="date">22 . 11 . 2026</div>
+    <div class="place" data-ka="მარაკეში, მაროკო" data-en="Marrakech, Morocco">მარაკეში, მაროკო</div>
+    <div class="scroll-cue"><span data-ka="ქვემოთ" data-en="SCROLL">ქვემოთ</span>
+      <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section class="pad count-sec reveal">
+    <div class="eyebrow" data-ka="დარჩა" data-en="counting down">დარჩა</div>
+    <div class="title" data-ka="დიდ დღემდე" data-en="Until the big day">დიდ დღემდე</div>
+    <div class="divider"><span></span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 12c0 4.5-7 9-7 9z"/></svg><span></span></div>
+    <div class="count-grid">
+      <div class="count-cell"><b id="cd-d">0</b><small data-ka="დღე" data-en="days">დღე</small></div>
+      <div class="count-cell"><b id="cd-h">0</b><small data-ka="სთ" data-en="hrs">სთ</small></div>
+      <div class="count-cell"><b id="cd-m">0</b><small data-ka="წთ" data-en="min">წთ</small></div>
+      <div class="count-cell"><b id="cd-s">0</b><small data-ka="წმ" data-en="sec">წმ</small></div>
+    </div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section class="pad story reveal">
+    <div class="eyebrow" data-ka="ჩვენი გზა" data-en="our journey">ჩვენი გზა</div>
+    <div class="title" data-ka="ჩვენი ისტორია" data-en="Our Story">ჩვენი ისტორია</div>
+    <div class="divider"><span></span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 12c0 4.5-7 9-7 9z"/></svg><span></span></div>
+    <div class="timeline">
+      <div class="t-item"><div class="t-year">2020</div>
+        <div class="t-head" data-ka="გავიცანით ერთმანეთი" data-en="We Met">გავიცანით ერთმანეთი</div>
+        <div class="t-text" data-ka="ჩვენი გზები ყველაზე მოულოდნელად გადაიკვეთა და ყველაფერი დაიწყო." data-en="Our paths crossed in the most unexpected way, and everything began.">ჩვენი გზები ყველაზე მოულოდნელად გადაიკვეთა და ყველაფერი დაიწყო.</div></div>
+      <div class="t-item"><div class="t-year">2021</div>
+        <div class="t-head" data-ka="პირველი მოგზაურობა" data-en="First Adventure">პირველი მოგზაურობა</div>
+        <div class="t-text" data-ka="აღმოვაჩინეთ მოგზაურობისა და თავგადასავლების საერთო სიყვარული." data-en="We discovered our shared love for travel and adventure.">აღმოვაჩინეთ მოგზაურობისა და თავგადასავლების საერთო სიყვარული.</div></div>
+      <div class="t-item"><div class="t-year">2024</div>
+        <div class="t-head" data-ka="წინადადება" data-en="The Proposal">წინადადება</div>
+        <div class="t-text" data-ka="ვარსკვლავებით სავსე ცის ქვეშ ერთმა კითხვამ ყველაფერი შეცვალა — და პასუხი იყო „დიახ“." data-en="Under a starlit sky, one question changed everything — and the answer was yes.">ვარსკვლავებით სავსე ცის ქვეშ ერთმა კითხვამ ყველაფერი შეცვალა — და პასუხი იყო „დიახ“.</div></div>
+      <div class="t-item"><div class="t-year">2026</div>
+        <div class="t-head" data-ka="ვქორწინდებით" data-en="We Marry">ვქორწინდებით</div>
+        <div class="t-text" data-ka="ახლა კი იწყება ყველაზე ლამაზი თავგადასავალი — თქვენ გვერდით." data-en="And now begins the greatest adventure — beside you.">ახლა კი იწყება ყველაზე ლამაზი თავგადასავალი — თქვენ გვერდით.</div></div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="pad gallery reveal">
+    <div class="eyebrow" data-ka="წამები" data-en="moments">წამები</div>
+    <div class="title" data-ka="ჩვენ, ერთად" data-en="Us, Together">ჩვენ, ერთად</div>
+    <div class="divider"><span></span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 12c0 4.5-7 9-7 9z"/></svg><span></span></div>
+    <div class="g-grid">
+      <figure><img loading="lazy" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=600&auto=format&fit=crop" alt=""/></figure>
+      <figure><img loading="lazy" src="https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=500&auto=format&fit=crop" alt=""/></figure>
+      <figure><img loading="lazy" src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=500&auto=format&fit=crop" alt=""/></figure>
+    </div>
+  </section>
+
+  <!-- PROGRAMME -->
+  <section class="pad programme reveal">
+    <div class="eyebrow" data-ka="ეს დღე" data-en="the day">ეს დღე</div>
+    <div class="title" data-ka="დღის პროგრამა" data-en="Programme">დღის პროგრამა</div>
+    <div class="divider"><span></span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 12c0 4.5-7 9-7 9z"/></svg><span></span></div>
+    <div class="prog-list">
+      <div class="prog-item"><div class="prog-ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div>
+        <div><div class="prog-time">16:30</div><div class="prog-name" data-ka="სტუმრების მისვლა" data-en="Guests Arrive">სტუმრების მისვლა</div><div class="prog-desc" data-ka="მისალმება და დახვედრა" data-en="Welcome & greetings">მისალმება და დახვედრა</div></div></div>
+      <div class="prog-item"><div class="prog-ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 12c0 4.5-7 9-7 9z"/></svg></div>
+        <div><div class="prog-time">17:00</div><div class="prog-name" data-ka="ცერემონია" data-en="Ceremony">ცერემონია</div><div class="prog-desc" data-ka="ფიცის დადება" data-en="Exchange of vows">ფიცის დადება</div></div></div>
+      <div class="prog-item"><div class="prog-ic"><svg viewBox="0 0 24 24"><path d="M8 2h8l-1 7a3 3 0 01-6 0z"/><path d="M12 9v8M8 21h8"/></svg></div>
+        <div><div class="prog-time">18:00</div><div class="prog-name" data-ka="კოქტეილი" data-en="Cocktails">კოქტეილი</div><div class="prog-desc" data-ka="აპერიტივი და სასმელები" data-en="Drinks & canapés">აპერიტივი და სასმელები</div></div></div>
+      <div class="prog-item"><div class="prog-ic"><svg viewBox="0 0 24 24"><path d="M3 3v8a4 4 0 008 0V3M7 3v18M21 3c-1.5 1-2 3-2 6s.5 5 2 6v6"/></svg></div>
+        <div><div class="prog-time">20:00</div><div class="prog-name" data-ka="ვახშამი" data-en="Dinner">ვახშამი</div><div class="prog-desc" data-ka="საქორწილო ლხინი" data-en="Wedding banquet">საქორწილო ლხინი</div></div></div>
+      <div class="prog-item"><div class="prog-ic"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <div><div class="prog-time">22:30</div><div class="prog-name" data-ka="პირველი ცეკვა და ზეიმი" data-en="First Dance & Party">პირველი ცეკვა და ზეიმი</div><div class="prog-desc" data-ka="ვიზეიმოთ ერთად!" data-en="Let's celebrate!">ვიზეიმოთ ერთად!</div></div></div>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section class="pad details reveal">
+    <div class="eyebrow" data-ka="სასარგებლო" data-en="good to know">სასარგებლო</div>
+    <div class="title" data-ka="დეტალები" data-en="Details">დეტალები</div>
+    <div class="divider"><span></span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 12c0 4.5-7 9-7 9z"/></svg><span></span></div>
+    <div class="d-grid">
+      <div class="d-card"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <h4 data-ka="ადგილი" data-en="Venue">ადგილი</h4>
+        <p data-ka="ბაღების სასახლე, მარაკეში" data-en="Palais des Jardins, Marrakech">ბაღების სასახლე, მარაკეში</p>
+        <a href="https://maps.google.com" target="_blank" rel="noopener" data-ka="რუკაზე ნახვა →" data-en="Open in Maps →">რუკაზე ნახვა →</a></div>
+      <div class="d-card"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <h4 data-ka="თარიღი და დრო" data-en="Date & Time">თარიღი და დრო</h4>
+        <p data-ka="კვირა, 22 ნოემბერი 2026<br>16:30 საათიდან" data-en="Sunday 22 November 2026<br>from 16:30">კვირა, 22 ნოემბერი 2026<br>16:30 საათიდან</p></div>
+      <div class="d-card"><svg viewBox="0 0 24 24"><path d="M5 21V7l8-4v18M19 21V11l-6-3"/><path d="M9 9v.01M9 12v.01M9 15v.01M9 18v.01"/></svg>
+        <h4 data-ka="განთავსება" data-en="Accommodation">განთავსება</h4>
+        <p data-ka="ჩვენი სტუმრებისთვის ახლომახლო დაჯავშნულია ნომრები." data-en="A room block is reserved for our guests nearby.">ჩვენი სტუმრებისთვის ახლომახლო დაჯავშნულია ნომრები.</p></div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section class="pad rsvp reveal">
+    <div class="eyebrow" data-ka="დაგვესწარით" data-en="join us">დაგვესწარით</div>
+    <div class="title" data-ka="დაადასტურეთ" data-en="RSVP">დაადასტურეთ</div>
+    <div class="divider"><span></span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 12c0 4.5-7 9-7 9z"/></svg><span></span></div>
+    <p class="lead" data-ka="გთხოვთ, გვაცნობოთ 2026 წლის 1 ოქტომბრამდე, თუ დაგვესწრებით." data-en="Please let us know if you'll be celebrating with us by 1 October 2026.">გთხოვთ, გვაცნობოთ 2026 წლის 1 ოქტომბრამდე, თუ დაგვესწრებით.</p>
+    <form id="rsvpForm">
+      <div class="field"><label data-ka="სახელი და გვარი" data-en="Full name">სახელი და გვარი</label><input type="text" required name="name"/></div>
+      <div class="field"><label data-ka="დაგვესწრებით?" data-en="Will you attend?">დაგვესწრებით?</label>
+        <div class="choice">
+          <button type="button" class="yes" data-val="yes" data-ka="სიხარულით — დიახ" data-en="Joyfully yes">სიხარულით — დიახ</button>
+          <button type="button" class="no" data-val="no" data-ka="სამწუხაროდ — არა" data-en="Sadly no">სამწუხაროდ — არა</button>
+        </div><input type="hidden" name="attending" id="attending"/></div>
+      <div class="field"><label data-ka="სტუმრების რაოდენობა" data-en="Number of guests">სტუმრების რაოდენობა</label>
+        <select name="guests"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+      <div class="field"><label data-ka="შენიშვნა (სურვილისამებრ)" data-en="A note for us (optional)">შენიშვნა (სურვილისამებრ)</label><textarea name="note"></textarea></div>
+      <button class="submit" type="submit" data-ka="გაგზავნა" data-en="Send RSVP">გაგზავნა</button>
+    </form>
+    <div class="form-done" id="formDone" data-ka="გმადლობთ! მოუთმენლად ველოდებით თქვენთან ერთად აღნიშვნას. 🤍" data-en="Thank you! We can't wait to celebrate with you. 🤍">გმადლობთ! მოუთმენლად ველოდებით თქვენთან ერთად აღნიშვნას. 🤍</div>
+  </section>
+
+  <footer class="footer reveal">
+    <div class="mono">A&amp;D</div>
+    <div class="thanks" data-ka="სიყვარულით, ალექსი &amp; დიანა" data-en="With love, Alex & Diane">სიყვარულით, ალექსი &amp; დიანა</div>
+    <div class="hash">#ALEXDIANE2026</div>
+  </footer>
+
+</div>
+
+<audio id="bgAudio" loop preload="none">
+  <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0c6ff1bab.mp3?filename=romantic-piano-10449.mp3" type="audio/mpeg"/>
+</audio>
+
+<script>
+(function(){
+  var intro=document.getElementById('intro');
+  var vid=document.getElementById('introVid');
+  var cardText=document.getElementById('cardText');
+  var contHint=document.getElementById('contHint');
+  var opened=false, ended=false, shown=false, autoTimer=null;
+
+  function showCard(){ if(shown) return; shown=true; if(cardText) cardText.classList.add('show'); }
+  function proceed(){
+    if(opened || !shown) return;   /* can't leave the video until the name has appeared */
+    opened=true;
+    if(autoTimer) clearTimeout(autoTimer);
+    intro.classList.add('zoom');
+    var c=document.querySelector('.cover'); if(c) c.classList.add('reveal');
+    setTimeout(function(){ intro.classList.add('hidden'); document.body.style.overflow=''; window.scrollTo(0,0); },1150);
+    tryPlayMusic();
+  }
+  if(vid){
+    vid.play().catch(function(){});
+    vid.addEventListener('timeupdate',function(){ if(vid.currentTime>=3) showCard(); });
+    vid.addEventListener('ended',function(){
+      ended=true; showCard();
+      if(contHint) contHint.classList.add('show');
+      autoTimer=setTimeout(proceed,3200);   /* gentle auto-advance once the name is shown */
+    });
+  }
+  intro.addEventListener('click',function(){
+    if(!shown){ if(vid && vid.paused){ vid.play().catch(function(){}); } return; } /* locked until name appears */
+    proceed();
+  });
+  document.body.style.overflow='hidden';
+
+  // language
+  var lang='ka', langBtn=document.getElementById('langBtn'), langLabel=document.getElementById('langLabel');
+  function applyLang(){
+    document.querySelectorAll('[data-ka]').forEach(function(el){var v=el.getAttribute('data-'+lang);if(v!=null)el.innerHTML=v;});
+    langLabel.textContent=lang==='ka'?'EN':'ქარ'; document.documentElement.lang=lang;
+  }
+  langBtn.addEventListener('click',function(){lang=lang==='ka'?'en':'ka';applyLang();});
+
+  // music
+  var audio=document.getElementById('bgAudio'), musicBtn=document.getElementById('musicBtn'), playing=false;
+  function setIcon(){musicBtn.style.opacity=playing?'1':'.55';}
+  function tryPlayMusic(){audio.volume=.55;audio.play().then(function(){playing=true;setIcon();}).catch(function(){});}
+  musicBtn.addEventListener('click',function(){if(playing){audio.pause();playing=false;}else{audio.play().then(function(){playing=true;setIcon();}).catch(function(){});}setIcon();});
+  setIcon();
+
+  // countdown
+  var target=new Date('2026-11-22T16:30:00+01:00').getTime();
+  function tick(){var d=target-Date.now();if(d<0)d=0;
+    document.getElementById('cd-d').textContent=Math.floor(d/86400000);
+    document.getElementById('cd-h').textContent=Math.floor(d%86400000/3600000);
+    document.getElementById('cd-m').textContent=Math.floor(d%3600000/60000);
+    document.getElementById('cd-s').textContent=Math.floor(d%60000/1000);}
+  tick();setInterval(tick,1000);
+
+  // reveal
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  // rsvp
+  var ab=document.querySelectorAll('.choice button');
+  ab.forEach(function(b){b.addEventListener('click',function(){ab.forEach(function(x){x.classList.remove('active');});b.classList.add('active');document.getElementById('attending').value=b.getAttribute('data-val');});});
+  document.getElementById('rsvpForm').addEventListener('submit',function(e){e.preventDefault();this.style.display='none';document.getElementById('formDone').classList.add('show');});
+})();
+</script>
+</body>
+</html>
