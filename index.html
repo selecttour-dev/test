@@ -208,19 +208,15 @@
       vector-effect: non-scaling-stroke
     }
 
-    /* burst petals on opening */
-    .burst-petal {
+    /* confetti particles on opening */
+    .confetti-particle {
       position: absolute;
       left: 50%;
-      top: 38%;
-      width: 16px;
-      height: 16px;
-      border-radius: 0 100% 0 100%;
+      top: 50%;
       z-index: 8;
       pointer-events: none;
       opacity: 0;
-      background: radial-gradient(circle at 30% 30%, #f3c9c4, #cf8b86);
-      will-change: transform, opacity
+      will-change: transform, opacity;
     }
 
     /* wax seal */
@@ -1387,28 +1383,54 @@
       // ----- envelope open (full-screen, cinematic) -----
       var intro = document.getElementById('intro');
       var opened = false;
-      function burstPetals() {
-        for (var i = 0; i < 22; i++) {
-          var p = document.createElement('div'); p.className = 'burst-petal';
-          if (i % 2) p.style.background = 'radial-gradient(circle at 30% 30%,#cdd9bb,#9cab8a)';
-          var sc = 0.55 + Math.random() * 0.95;
+      function burstConfetti() {
+        var colors = ['#c2674a', '#9cab8a', '#b89b5e', '#efe9da', '#f3cbc6', '#6f7e5d'];
+        var count = 90;
+        for (var i = 0; i < count; i++) {
+          var p = document.createElement('div');
+          p.className = 'confetti-particle';
+          
+          // Randomize color and shape
+          var color = colors[Math.floor(Math.random() * colors.length)];
+          var isCircle = Math.random() > 0.5;
+          var w = 6 + Math.random() * 8;
+          var h = isCircle ? w : 5 + Math.random() * 9;
+          
+          p.style.width = w + 'px';
+          p.style.height = h + 'px';
+          p.style.backgroundColor = color;
+          p.style.borderRadius = isCircle ? '50%' : (Math.random() > 0.5 ? '3px' : '0px');
+          
           intro.appendChild(p);
-          var ang = Math.random() * Math.PI * 2;
-          var dist = 90 + Math.random() * 240;
-          var dx = Math.cos(ang) * dist;
-          var dy = Math.sin(ang) * dist * 0.5 + 220 + Math.random() * 340;   /* gravity bias */
-          var rot = Math.random() * 900 - 450;
+          
+          // Physics vectors
+          var angle = Math.random() * Math.PI * 2;
+          var force = 60 + Math.random() * 180;
+          var dx1 = Math.cos(angle) * force;
+          var dy1 = Math.sin(angle) * force - 60; // initial upward velocity bias
+          
+          var dx2 = dx1 * 1.5 + (Math.random() * 120 - 60);
+          var dy2 = dy1 + 320 + Math.random() * 250; // gravity pull down
+          
+          var rotX = Math.random() * 720 - 360;
+          var rotY = Math.random() * 720 - 360;
+          var rotZ = Math.random() * 720 - 360;
+          
           p.animate([
-            { transform: 'translate(-50%,-50%) scale(.15) rotate(0deg)', opacity: 1 },
-            { opacity: 1, offset: 0.15 },
-            { transform: 'translate(calc(-50% + ' + dx + 'px),calc(-50% + ' + dy + 'px)) scale(' + sc + ') rotate(' + rot + 'deg)', opacity: 0 }
-          ], { duration: 1500 + Math.random() * 900, easing: 'cubic-bezier(.2,.55,.3,1)', fill: 'forwards' });
+            { transform: 'translate(-50%, -50%) scale(0) rotate3d(1, 1, 1, 0deg)', opacity: 0 },
+            { transform: 'translate(calc(-50% + ' + dx1 + 'px), calc(-50% + ' + dy1 + 'px)) scale(1) rotate3d(1, 1, 1, 120deg)', opacity: 1, offset: 0.2 },
+            { transform: 'translate(calc(-50% + ' + dx2 + 'px), calc(-50% + ' + dy2 + 'px)) scale(0.6) rotate3d(1, 1, 1, ' + rotX + 'deg)', opacity: 0 }
+          ], {
+            duration: 1800 + Math.random() * 1000,
+            easing: 'cubic-bezier(.1, .8, .3, 1)',
+            fill: 'forwards'
+          });
         }
       }
       function openEnvelope() {
         if (opened) return; opened = true;
         intro.classList.add('open');
-        burstPetals();
+        burstConfetti();
         setTimeout(function () {
           intro.classList.add('zoom');
           var c = document.querySelector('.cover'); if (c) c.classList.add('settle');
