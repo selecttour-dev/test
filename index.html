@@ -154,7 +154,7 @@
 
     .flap.top {
       clip-path: polygon(0 0, 100% 0, 50% 50%);
-      z-index: 2;
+      z-index: 6;
       background: linear-gradient(180deg, #fefcf7 0%, #f0e7d7 68%, #e4d8c2 100%);
       transform-origin: top center;
       filter: drop-shadow(0 7px 16px rgba(116, 92, 60, .32));
@@ -177,7 +177,7 @@
 
     .flap.bottom {
       clip-path: polygon(0 100%, 100% 100%, 50% 50%);
-      z-index: 5;
+      z-index: 4;
       background: linear-gradient(0deg, #f8f3ea 0%, #ebdfca 100%);
       filter: drop-shadow(0 -7px 18px rgba(116, 92, 60, .36));
     }
@@ -1050,14 +1050,14 @@
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="waxg" cx="38%" cy="30%" r="76%">
-              <stop offset="0%" stop-color="#f3c2bc" />
-              <stop offset="36%" stop-color="#dd9690" />
-              <stop offset="70%" stop-color="#c2706a" />
-              <stop offset="100%" stop-color="#94514c" />
+              <stop offset="0%" stop-color="#f6c4b4" />
+              <stop offset="36%" stop-color="#d88670" />
+              <stop offset="70%" stop-color="#be5b41" />
+              <stop offset="100%" stop-color="#823521" />
             </radialGradient>
             <radialGradient id="waxsheen" cx="34%" cy="26%" r="42%">
-              <stop offset="0%" stop-color="#ffe6e2" stop-opacity=".92" />
-              <stop offset="100%" stop-color="#ffe6e2" stop-opacity="0" />
+              <stop offset="0%" stop-color="#fff0ec" stop-opacity=".92" />
+              <stop offset="100%" stop-color="#fff0ec" stop-opacity="0" />
             </radialGradient>
             <filter id="waxrough" x="-25%" y="-25%" width="150%" height="150%">
               <feTurbulence type="fractalNoise" baseFrequency="0.018 0.02" numOctaves="2" seed="11" result="n" />
@@ -1071,19 +1071,20 @@
           </defs>
           <g filter="url(#waxrough)">
             <circle cx="100" cy="100" r="84" fill="url(#waxg)" />
-            <circle cx="100" cy="100" r="84" fill="none" stroke="#7c423e" stroke-width="2.5" stroke-opacity=".4" />
-            <circle cx="100" cy="100" r="67" fill="none" stroke="#94514c" stroke-width="3" stroke-opacity=".45" />
-            <circle cx="100" cy="100" r="67" fill="none" stroke="#f5cdc8" stroke-width="1" stroke-opacity=".45" transform="translate(0,-1.5)" />
+            <circle cx="100" cy="100" r="84" fill="none" stroke="#6e2b1b" stroke-width="2.5" stroke-opacity=".45" />
+            <circle cx="100" cy="100" r="67" fill="none" stroke="#8c3521" stroke-width="3" stroke-opacity=".5" />
+            <circle cx="100" cy="100" r="67" fill="none" stroke="#fcdbd2" stroke-width="1" stroke-opacity=".55" transform="translate(0,-1.5)" />
             <ellipse cx="76" cy="68" rx="42" ry="30" fill="url(#waxsheen)" />
           </g>
-          <circle cx="100" cy="100" r="80" fill="#5a2b28" opacity=".18" filter="url(#waxgrain)" />
-          <g font-family="'Great Vibes', 'Cormorant Garamond', cursive, serif" font-size="52" text-anchor="middle" dominant-baseline="central">
+          <circle cx="100" cy="100" r="80" fill="#541a0d" opacity=".22" filter="url(#waxgrain)" />
+          <circle cx="100" cy="100" r="54" fill="none" stroke="#8c3521" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.45" />
+          <g font-family="'Cormorant Garamond', serif" font-weight="600" font-style="italic" font-size="38" letter-spacing="1" text-anchor="middle" dominant-baseline="central">
             <!-- Shadow -->
-            <text x="100" y="105" fill="#8f4f4a" opacity="0.8" transform="translate(1.2, 1.6)">Sh &amp; S</text>
+            <text x="100" y="103" fill="#541a0d" opacity="0.9" transform="translate(-1, -1)">Sh &amp; S</text>
             <!-- Highlight -->
-            <text x="100" y="105" fill="#f3cbc6" opacity="0.8" transform="translate(-1.2, -1.6)">Sh &amp; S</text>
+            <text x="100" y="103" fill="#ffece6" opacity="0.75" transform="translate(1, 1)">Sh &amp; S</text>
             <!-- Main -->
-            <text x="100" y="105" fill="#d18b85">Sh &amp; S</text>
+            <text x="100" y="103" fill="#9a422d">Sh &amp; S</text>
           </g>
         </svg>
       </div>
